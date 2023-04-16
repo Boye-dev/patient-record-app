@@ -39,7 +39,7 @@ app.use(cookieParser());
 
 const io = require("socket.io")(process.env.SOCKET_PORT || 8900, {
   cors: {
-    origin: "https://localhost:3000",
+    origin: "https://patient-record-app-production.up.railway.app",
   },
 });
 let users = [];
@@ -114,9 +114,9 @@ app.use("/api", require("./controllers/message"));
 // To show public files/Files from uploads folder  and to upload to cloudinary
 app.use("/api/uploads", express.static("api/uploads"));
 
-cron.schedule("0 0 * * *", () => {
-  app.delete("/api/deleteTutorials");
-});
+// cron.schedule("0 0 * * *", () => {
+//   app.delete("/api/deleteTutorials");
+// });
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
