@@ -20,7 +20,9 @@ export const ExeatProvider = ({ children }) => {
   const socketRef = useRef();
 
   useEffect(() => {
-    socketRef.current = io("ws://localhost:3000");
+    socketRef.current = io(
+      "wss://patient-record-app-production.up.railway.app/"
+    );
   }, []);
   useEffect(() => {
     socketRef.current.emit("addUser", currenUser?._id);
