@@ -36,18 +36,18 @@ const Patients = () => {
       headerName: "Email",
       width: 150,
     },
-    // {
-    //   field: "view",
-    //   headerName: "View Details",
-    //   width: 150,
-    //   renderCell: (cellValues) => (
-    //     <Link to={`${cellValues.row._id}`} style={{ textDecoration: "none" }}>
-    //       <Button sx={{}} variant="contained" color="primary">
-    //         View Details
-    //       </Button>
-    //     </Link>
-    //   ),
-    // },
+    {
+      field: "view",
+      headerName: "View Details",
+      width: 150,
+      renderCell: (cellValues) => (
+        <Link to={`${cellValues.row._id}`} style={{ textDecoration: "none" }}>
+          <Button sx={{}} variant="contained" color="primary">
+            View Details
+          </Button>
+        </Link>
+      ),
+    },
   ];
   const [isLoading, setLoading] = useState(true);
   const [exeats, setExeats] = useState();

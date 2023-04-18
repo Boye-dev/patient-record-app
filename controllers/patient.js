@@ -356,4 +356,19 @@ router.get("/patients", async (req, res) => {
     });
   }
 });
+router.get("/patients/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Query the database for all patients
+    const patients = await Patient.findById(id);
+
+    // Return the list of patients
+    res.json(patients);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});
 module.exports = router;

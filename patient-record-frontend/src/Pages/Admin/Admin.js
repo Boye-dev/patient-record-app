@@ -7,6 +7,7 @@ import Appointments from "./Appointments";
 import Patients from "./Patients";
 import Profile from "./Profile";
 import RegisterPatient from "./RegisterPatient";
+import SingleExeat from "./SingleExeat";
 const Admin = () => {
   return (
     <>
@@ -17,6 +18,7 @@ const Admin = () => {
         <Route exact path="appointments" element={<Appointments />} />
         <Route exact path="register-patient" element={<RegisterPatient />} />
         <Route exact path="profile" element={<Profile />} />
+        <Route exact path="patients/:id" element={<SingleExeat />} />
 
         <Route exact path="*" element={<NotFound />} />
       </Routes>

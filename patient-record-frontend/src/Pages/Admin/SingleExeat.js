@@ -71,7 +71,7 @@ const SingleExeat = () => {
     const fetchTalent = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`/api/exeat/${id}`);
+        const response = await api.get(`/api/patients/${id}`);
         if (response && response.data) setLoading(false);
         console.log(response.data);
         setData(response.data);
@@ -90,7 +90,7 @@ const SingleExeat = () => {
         <Typography
           sx={{ color: "rgb(0,66,130)", fontWeight: "700", fontSize: "30px" }}
         >
-          Exeat Application Details
+          Patient Details
         </Typography>
         {loading ? (
           <Box sx={{ textAlign: "center", width: "100%" }}>
@@ -99,29 +99,39 @@ const SingleExeat = () => {
         ) : (
           <Box sx={{ height: 480, width: "100%", mt: 5, mb: 5 }}>
             <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
-              Name - {data.student?.lastname} {data.student?.firstname}
+              Full Name - {data?.lastname} {data?.firstname}
             </Typography>
             <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
-              Matric Number - {data.student?.userNumber}
+              Username - {data?.username}
             </Typography>
             <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
-              Type - {data.type}
-            </Typography>
+              Age - {data.age}
+            </Typography>{" "}
             <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
-              Reason - {data.reason}
-            </Typography>
-            <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
-              Host - {data.host}
+              Phone Number - {data.phonenumber}
             </Typography>
             <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
               Address - {data.address}
             </Typography>
             <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
-              Departure Date - {data.departDate}
+              Email - {data.email}
             </Typography>
             <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
-              Return Date - {data.returnDate}
+              Address - {data.address}
             </Typography>
+            <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
+              Spouse Name - {data.spouseName}
+            </Typography>
+            <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
+              Spouse Phone Number - {data.spousePhone}
+            </Typography>
+            <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
+              Emergency Contact- {data.emergencyContact}
+            </Typography>
+            <Typography sx={{ fontWeight: "400", fontSize: "20px", pb: 1 }}>
+              Occupation - {data.occupation}
+            </Typography>
+            <img src={data.profilePhoto} width="200px" height="200px" />
             {data.status === "Pending" && (
               <>
                 <Box mt={5} sx={{}}>

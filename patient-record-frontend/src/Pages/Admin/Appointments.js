@@ -1,4 +1,10 @@
-import { Box, Button, LinearProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
@@ -6,6 +12,25 @@ import api from "../../api/api";
 import AuthService from "../../auth_service";
 
 const Appointments = () => {
+  const [loading, setIsLoading] = useState(false);
+  const [refetch, setRefetch] = useState(false);
+  const changeStatus = async (id) => {
+    setIsLoading(true);
+    try {
+      const response = await api.put(`/api/appointments/${id}/cancel`);
+      if (response && response.data) {
+        setIsLoading(false);
+        setLoading(true);
+        setRefetch(!refetch);
+      }
+      console.log(response.data);
+    } catch (error) {
+      if (error.response) {
+        setIsLoading(false);
+      } else {
+      }
+    }
+  };
   const columns = [
     {
       field: "username",
@@ -59,6 +84,23 @@ const Appointments = () => {
       headerName: "Appointment Notes",
       width: 300,
     },
+    {
+      field: "view",
+      headerName: "Change Status",
+      width: 150,
+      renderCell: (cellValues) => (
+        <Button
+          sx={{}}
+          variant="contained"
+          color="primary"
+          disabled={cellValues.row.status !== "confirmed"}
+          onClick={() => changeStatus(cellValues.row._id)}
+          startIcon={loading && <CircularProgress size={15} />}
+        >
+          Change Status
+        </Button>
+      ),
+    },
   ];
   const [isLoading, setLoading] = useState(true);
   const [exeats, setExeats] = useState();
@@ -82,7 +124,7 @@ const Appointments = () => {
   };
   useEffect(() => {
     fetchApplications();
-  }, []);
+  }, [refetch]);
 
   return (
     <Box sx={{ ml: { xs: "0", md: "240px" }, mt: 10 }}>

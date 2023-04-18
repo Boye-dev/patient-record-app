@@ -5,7 +5,7 @@ module.exports = function (app) {
     "/api",
     createProxyMiddleware({
       target: "https://patient-record-app-production.up.railway.app",
-      // target: "https://babcock-exeat-production.up.railway.app",
+      // target: "http://localhost:4000",
 
       changeOrigin: true,
     })

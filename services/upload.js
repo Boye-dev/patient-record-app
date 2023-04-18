@@ -64,7 +64,7 @@ async function uploadProfilePicToCloudinary(localFilePath) {
   // filePathOnCloudinary:
   //path of image we want when it is uploaded to cloudinary
   return cloudinary.uploader
-    .upload(localFilePath, { folder: "patientProfile" })
+    .upload(localFilePath, { folder: "profilePhoto" })
     .then((result) => {
       //Image has been successfully uploaded on cloudinary so we dont need local image file anymore
       // Remove file from local uploads folder
