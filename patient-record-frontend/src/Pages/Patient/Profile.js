@@ -20,6 +20,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import ExeatContext from "../../ExeatContext";
 import UpdatePassword from "../../Components/UpdatePassword";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 const Profile = () => {
   const { getCurrentUser, setWithExpiry } = AuthService;
   const navigate = useNavigate();
@@ -34,11 +35,19 @@ const Profile = () => {
     useContext(ExeatContext);
   const [variantName, setVariantName] = React.useState(null);
   const schema = yup.object().shape({
-    email: yup.string().required("Email Is Required"),
     firstname: yup.string().required("Firstname Is Required"),
     lastname: yup.string().required("Lastname Is Required"),
-    phonenumber: yup.string().required("Phone Number Is Required"),
-    username: yup.string().required("Username Is Required"),
+    email: yup.string().required("Email Is Required"),
+    username: yup.string().required("Patient Id Is Required"),
+    phonenumber: yup.string().required("Phonenumber Is Required"),
+    occupation: yup.string().required("Occupation Is Required"),
+    age: yup.string().required("Age Is Required"),
+    spouseName: yup.string().required("Spouse Name Is Required"),
+    spousePhone: yup.string().required("Spouse Phone Is Required"),
+    emergencyContact: yup
+      .string()
+      .required("Emergency Contact Number Is Required"),
+    address: yup.string().required("Address Is Required"),
   });
   const { handleSubmit, trigger, control, reset, setValue } = useForm({
     resolver: yupResolver(schema),
@@ -49,7 +58,7 @@ const Profile = () => {
 
   const loggIn = async ({ data }) => {
     return api
-      .put(`/api/editStaff/${getCurrentUser()?._id}`, data)
+      .put(`/api/editPatient/${getCurrentUser()?._id}`, data)
       .then((res) => res.data);
   };
   const { mutate, isLoading } = useMutation(loggIn, {
@@ -63,7 +72,7 @@ const Profile = () => {
       );
     },
     onSuccess: (data) => {
-      setWithExpiry("user", data.Staff);
+      setWithExpiry("user", data.patient);
       setSnackColor("green");
       setIsSnackOpen(true);
       setSnackMessage("Editted Successfully");
@@ -119,6 +128,13 @@ const Profile = () => {
     formData.append("email", payload.email);
     formData.append("phonenumber", payload.phonenumber);
     formData.append("username", payload.username);
+
+    formData.append("occupation", payload.occupation);
+    formData.append("age", payload.age);
+    formData.append("spouseName", payload.spouseName);
+    formData.append("spousePhone", payload.spousePhone);
+    formData.append("emergencyContact", payload.emergencyContact);
+    formData.append("address", payload.address);
     if (picture) {
       formData.append("profilePhoto", payload.picture);
     }
@@ -217,123 +233,281 @@ const Profile = () => {
                 mt: 5,
               }}
             >
-              <Controller
-                name="firstname"
-                control={control}
-                defaultValue={getCurrentUser()?.firstname}
-                render={({
-                  field: { ref, ...fields },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: { xs: "100%", md: "60%" }, mb: 3 }}
-                    label="Firstname"
-                    fullWidth
-                    {...fields}
-                    inputRef={ref}
-                    error={Boolean(error?.message)}
-                    helperText={error?.message}
-                    onKeyUp={() => {
-                      trigger("firstname");
-                    }}
-                  />
-                )}
-              />
-              <Controller
-                name="lastname"
-                control={control}
-                defaultValue={getCurrentUser()?.lastname}
-                render={({
-                  field: { ref, ...fields },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: { xs: "100%", md: "60%" }, mb: 3 }}
-                    label="Lastame"
-                    fullWidth
-                    {...fields}
-                    inputRef={ref}
-                    error={Boolean(error?.message)}
-                    helperText={error?.message}
-                    onKeyUp={() => {
-                      trigger("lastname");
-                    }}
-                  />
-                )}
-              />
-              <Controller
-                name="username"
-                control={control}
-                defaultValue={getCurrentUser()?.username}
-                render={({
-                  field: { ref, ...fields },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: { xs: "100%", md: "60%" }, mb: 3 }}
-                    label="Username"
-                    fullWidth
-                    {...fields}
-                    inputRef={ref}
-                    error={Boolean(error?.message)}
-                    helperText={error?.message}
-                    onKeyUp={() => {
-                      trigger("username");
-                    }}
-                  />
-                )}
-              />
-
-              <Controller
-                name="email"
-                control={control}
-                defaultValue={getCurrentUser()?.email}
-                render={({
-                  field: { ref, ...fields },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: { xs: "100%", md: "60%" }, mb: 3 }}
-                    label="Email"
-                    fullWidth
-                    {...fields}
-                    inputRef={ref}
-                    error={Boolean(error?.message)}
-                    helperText={error?.message}
-                    onKeyUp={() => {
-                      trigger("email");
-                    }}
-                  />
-                )}
-              />
-              <Controller
-                name="phonenumber"
-                control={control}
-                defaultValue={getCurrentUser()?.phonenumber}
-                render={({
-                  field: { ref, ...fields },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: { xs: "100%", md: "60%" }, mb: 3 }}
-                    label="Phone Number"
-                    fullWidth
-                    {...fields}
-                    inputRef={ref}
-                    error={Boolean(error?.message)}
-                    helperText={error?.message}
-                    onKeyUp={() => {
-                      trigger("phonenumber");
-                    }}
-                  />
-                )}
-              />
-
+              <Grid2 item>
+                <Controller
+                  name="firstname"
+                  control={control}
+                  defaultValue={getCurrentUser()?.firstname}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Firstname"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("firstname");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 item xs={12} md={6} sx={{ pl: { xs: 0, md: 5 } }}>
+                <Controller
+                  name="lastname"
+                  control={control}
+                  defaultValue={getCurrentUser()?.lastname}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Lastname"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("lastname");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>{" "}
+              <Grid2 item xs={12} md={6}>
+                <Controller
+                  name="username"
+                  control={control}
+                  defaultValue={getCurrentUser()?.username}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Patient ID"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("username");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>{" "}
+              <Grid2 item xs={12} md={6} sx={{ pl: { xs: 0, md: 5 } }}>
+                <Controller
+                  name="email"
+                  control={control}
+                  defaultValue={getCurrentUser()?.email}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Email"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("email");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 item xs={12} md={6}>
+                <Controller
+                  name="phonenumber"
+                  control={control}
+                  defaultValue={getCurrentUser()?.phonenumber}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Phone Number"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("phonenumber");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 item xs={12} md={6} sx={{ pl: { xs: 0, md: 5 } }}>
+                <Controller
+                  name="occupation"
+                  control={control}
+                  defaultValue={getCurrentUser()?.occupation}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Occupation"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("occupation");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>{" "}
+              <Grid2 item xs={12} md={6}>
+                <Controller
+                  name="age"
+                  control={control}
+                  defaultValue={getCurrentUser()?.age}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Age"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("age");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 item xs={12} md={6} sx={{ pl: { xs: 0, md: 5 } }}>
+                <Controller
+                  name="spouseName"
+                  control={control}
+                  defaultValue={getCurrentUser()?.spouseName}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Spouse Name"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("spouseName");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 item xs={12} md={6}>
+                <Controller
+                  name="spousePhone"
+                  control={control}
+                  defaultValue={getCurrentUser()?.spousePhone}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Spouse Phone Number"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("spousePhone");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 item xs={12} md={6} sx={{ pl: { xs: 0, md: 5 } }}>
+                <Controller
+                  name="emergencyContact"
+                  control={control}
+                  defaultValue={getCurrentUser()?.emergencyContact}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Emergency Contact Number"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("emergencyContact");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
+              <Grid2 item xs={12} md={6}>
+                <Controller
+                  name="address"
+                  control={control}
+                  defaultValue={getCurrentUser()?.address}
+                  render={({
+                    field: { ref, ...fields },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      variant="outlined"
+                      sx={{ mb: 4 }}
+                      label="Address"
+                      fullWidth
+                      {...fields}
+                      inputRef={ref}
+                      error={Boolean(error?.message)}
+                      helperText={error?.message}
+                      onKeyUp={() => {
+                        trigger("address");
+                      }}
+                    />
+                  )}
+                />
+              </Grid2>
               <Box sx={{ textAlign: "center" }}>
                 <LoadingButton
                   sx={{

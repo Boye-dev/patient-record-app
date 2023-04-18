@@ -74,8 +74,8 @@ router.get("/appointments/:patientId", async (req, res) => {
   try {
     // Query the database for all appointments associated with the patient ID
     const appointments = await Appointment.find({
-      patient: patientId,
-    }).populate("patientId");
+      patientId: patientId, // Update to "patientId" field
+    }).populate("patientId"); // Update to "patientId" field
 
     // Return the list of appointments
     res.json(appointments);
